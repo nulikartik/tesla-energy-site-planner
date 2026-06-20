@@ -1,0 +1,9 @@
+.site-layout-row {
+  display: flex;
+  flex-direction: row;
+  /* Align devices along their baseline/bottom edges to simulate a clean grounding yard floor */
+  align-items: flex-end; 
+  justify-content: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}

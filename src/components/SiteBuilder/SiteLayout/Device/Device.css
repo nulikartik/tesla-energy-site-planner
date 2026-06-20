@@ -1,0 +1,39 @@
+.custom-device-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 4px; /* Reduced slightly from 8px to give typography more breathing room */
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+  
+  /* ── CRITICAL STEP ──
+     Establishes an inline containment context. This allows child elements 
+     to inspect and query the exact width of THIS container box alone. */
+  container-type: inline-size;
+}
+
+.custom-device-node:hover {
+  transform: scale(1.02);
+}
+
+.custom-device-label {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  color: #111111;
+  text-align: center;
+  user-select: none;
+  
+  /* ── DYNAMIC BREAKING & HYPHENATION ── */
+  word-break: break-word;
+  hyphens: auto;
+  line-height: 1.1;
+
+  /* ── FLUID TYPOGRAPHY CONTAINER QUERY ──
+     16cqi = 16% of the parent element's width.
+     clamp() ensures the font never shrinks below 8px (micro-boxes) 
+     and never balloons above 13px (large Megapack boxes). */
+  font-size: clamp(8px, 16cqi, 13px);
+}
