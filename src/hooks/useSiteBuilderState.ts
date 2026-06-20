@@ -17,23 +17,27 @@ export function useSiteBuilderState() {
   // Auto-restore state on mount if a tracking session parameter exists in the URL string
   useEffect(() => {
     const sessionId = new URLSearchParams(window.location.search).get('session');
+    
+    // TYPE GUARD: Instantly exit if sessionId is null or empty. 
+    // This narrows the type down from 'string | null' to strictly 'string'.
     if (!sessionId) return;
 
-    async function restoreSession() {
+    async function restoreSession(validId: string) {
       try {
         setStatusMessage('Restoring blueprint from disk server...');
-        const restoredQuantities = await sessionService.loadSession(sessionId);
+        const restoredQuantities = await sessionService.loadSession(validId);
         
         // Lock this session ID into our persistent state container
-        setActiveSessionId(sessionId);
+        setActiveSessionId(validId);
         setQuantities(restoredQuantities);
-        setShareableUrl(`${window.location.origin}/?session=${sessionId}`);
+        setShareableUrl(`${window.location.origin}/?session=${validId}`);
         setStatusMessage('Blueprint restored successfully!');
       } catch (error: any) {
         setStatusMessage(error.message || 'Error connecting to backend services.');
       }
     }
-    restoreSession();
+    
+    restoreSession(sessionId);
   }, []);
 
   /**
