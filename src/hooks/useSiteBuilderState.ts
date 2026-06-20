@@ -19,25 +19,26 @@ export function useSiteBuilderState() {
     const sessionId = new URLSearchParams(window.location.search).get('session');
     
     // TYPE GUARD: Instantly exit if sessionId is null or empty. 
-    // This narrows the type down from 'string | null' to strictly 'string'.
+    // This strictly guarantees that everything below this line views sessionId as a string.
     if (!sessionId) return;
 
-    async function restoreSession(validId: string) {
+    async function restoreSession() {
       try {
         setStatusMessage('Restoring blueprint from disk server...');
-        const restoredQuantities = await sessionService.loadSession(validId);
+        // Reference the narrowed variable directly out of the scope closure
+        const restoredQuantities = await sessionService.loadSession(sessionId || '');
         
         // Lock this session ID into our persistent state container
-        setActiveSessionId(validId);
+        setActiveSessionId(sessionId);
         setQuantities(restoredQuantities);
-        setShareableUrl(`${window.location.origin}/?session=${validId}`);
+        setShareableUrl(`${window.location.origin}/?session=${sessionId}`);
         setStatusMessage('Blueprint restored successfully!');
       } catch (error: any) {
         setStatusMessage(error.message || 'Error connecting to backend services.');
       }
     }
     
-    restoreSession(sessionId);
+    restoreSession();
   }, []);
 
   /**
