@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSiteBuilderState } from '../../hooks/useSiteBuilderState';
 import ConfigurationPanel from './ConfigurationPanel/ConfigurationPanel';
 import SiteLayout from './SiteLayout/SiteLayout';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { DEVICE_SPECS } from '../../../types';
 import type { DeviceSpec } from '../../../types';
 import './ConfigurationPanel.css';
